@@ -1,105 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3 Buttons and 3 Text Fields</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-        }
-        .container {
-            display: flex;
-            gap: 10px;
-        }
-        .column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        input[type="text"] {
-            margin-bottom: 10px;
-            padding: 5px;
-            width: 150px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #output {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAM Simulator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 5px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+<script>
+function performButtonAction(action) {   
+    
+    const input = document.getElementById('input1');
+            const ecrId = input.value;
+
+    switch(action) {
+        case 'Registration Failure':
+            console.log("Triggering Registration Failure...");
+            window.daznNativeBridge.messageToNative('DZBT_REGISTRATION_ABORTED' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Registration Success':
+            console.log("Triggering Registration Success...");
+            window.daznNativeBridge.messageToNative('DZBT_REGISTRATION_SUCCESS' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Login Failure':
+            console.log("Triggering Login Failure...");
+            window.daznNativeBridge.messageToNative('DZBT_LOGIN_ABORTED' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Login Success':
+            console.log("Triggering Login Success...");
+            window.daznNativeBridge.messageToNative('DZBT_LOGIN_SUCCESS' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Deposit Failure':
+            console.log("Triggering Deposit Failure...");
+            window.daznNativeBridge.messageToNative('DZBT_DEPOSIT_ABORTED' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Deposit Success':
+            console.log("Triggering Deposit Success...");
+            window.daznNativeBridge.messageToNative('DZBT_DEPOSIT_SUCCESS' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Back To Stream':
+            console.log("Triggering Back To Stream...");
+            window.daznNativeBridge.messageToNative('DZBT_BACK_TO_STREAM' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true,
+                "hideBettingSection" : true
+            });
+            break;
+
+        case 'Redirect to External Browser':
+            console.log("Triggering Deposit Success...");
+            window.daznNativeBridge.messageToNative('DZBT_REDIRECTION' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true,
+                "url" : "https://help.daznbet.com/hc/en-gb/requests/new"
+            });
+            break;
+
+        case 'Close IN_APP view':
+            console.log("Triggering Deposit Success...");
+            window.daznNativeBridge.messageToNative('DZBT_IN_APP_CLOSE' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Betslip Failure':
+            console.log("Triggering Deposit Success...");
+            window.daznNativeBridge.messageToNative('DZBT_BET_PLACEMENT_FAILURE' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+        
+        case 'Betslip Success':
+            console.log("Triggering Deposit Success...");
+            window.daznNativeBridge.messageToNative('DZBT_BET_PLACEMENT_SUCCESS' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        default:
+            alert("Unknown action: " + action);
+    }
+}
+</script>
 </head>
 <body>
-    <div class="container">
-        <div class="column">
-            <input type="text" id="input1" placeholder="Enter text...">
-            <button onclick="handleClick(1)">Button 1</button>
-        </div>
-        <div class="column">
-            <input type="text" id="input2" placeholder="Enter text...">
-            <button onclick="handleClick(2)">Button 2</button>
-        </div>
-        <div class="column">
-            <input type="text" id="input3" placeholder="Enter text...">
-            <button onclick="handleClick(3)">Button 3</button>
-        </div>
-    </div>
-    <div id="output"></div>
 
-    <script>
-        function handleClick(buttonNumber) {
-            const inputId = `input${buttonNumber}`;
-            const input = document.getElementById(inputId);
-            const inputValue = input.value;
-            const inputDetails = getInputDetails(input);
-            
-            displayDetails(buttonNumber, inputValue, inputDetails);
-        }
+<h1>Welcome to PAM Simulator</h1>
 
-        function getInputDetails(input) {
-            return {
-                id: input.id,
-                type: input.type,
-                placeholder: input.placeholder,
-                length: input.value.length,
-                isEmpty: input.value.trim() === ''
-            };
-        }
+<div class="column">
+            <input type="text" id="input1" placeholder="Enter ecrExternalId...">
+        </div>
 
-        function displayDetails(buttonNumber, inputValue, details) {
-            const outputDiv = document.getElementById('output');
-            outputDiv.innerHTML = `
-                <h3>Button ${buttonNumber} Clicked</h3>
-                <p>Input Value: ${inputValue}</p>
-                <p>Input Details:</p>
-                <ul>
-                    <li>ID: ${details.id}</li>
-                    <li>Type: ${details.type}</li>
-                    <li>Placeholder: ${details.placeholder}</li>
-                    <li>Text Length: ${details.length}</li>
-                    <li>Is Empty: ${details.isEmpty}</li>
-                </ul>
-            `;
-        }
-    </script>
+<button onclick="performButtonAction('Registration Failure')">Trigger Registration Failure</button><br><br>
+<button onclick="performButtonAction('Registration Success')">Trigger Registration Success</button><br><br>
+<button onclick="performButtonAction('Login Failure')">Trigger Login Failure</button><br><br>
+<button onclick="performButtonAction('Login Success')">Trigger Login Success</button><br><br>
+<button onclick="performButtonAction('Deposit Failure')">Trigger Deposit Failure</button><br><br>
+<button onclick="performButtonAction('Deposit Success')">Trigger Deposit Success</button>
+<button onclick="performButtonAction('Betslip Failure')">Trigger Betslip Failure</button><br><br>
+<button onclick="performButtonAction('Betslip Success')">Trigger Betslip Success</button>
 </body>
 </html>
