@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3 Buttons and 3 Text Fields</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            display: flex;
+            gap: 10px;
+        }
+        .column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input[type="text"] {
+            margin-bottom: 10px;
+            padding: 5px;
+            width: 150px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="column">
+            <input type="text" id="input1" placeholder="Enter text...">
+            <button onclick="handleClick(1)">Button 1</button>
+        </div>
+        <div class="column">
+            <input type="text" id="input2" placeholder="Enter text...">
+            <button onclick="handleClick(2)">Button 2</button>
+        </div>
+        <div class="column">
+            <input type="text" id="input3" placeholder="Enter text...">
+            <button onclick="handleClick(3)">Button 3</button>
+        </div>
+    </div>
+    <div id="output"></div>
+
+    <script>
+        function handleClick(buttonNumber) {
+            const inputId = `input${buttonNumber}`;
+            const input = document.getElementById(inputId);
+            const inputValue = input.value;
+            const inputDetails = getInputDetails(input);
+            
+            displayDetails(buttonNumber, inputValue, inputDetails);
+        }
+
+        function getInputDetails(input) {
+            return {
+                id: input.id,
+                type: input.type,
+                placeholder: input.placeholder,
+                length: input.value.length,
+                isEmpty: input.value.trim() === ''
+            };
+        }
+
+        function displayDetails(buttonNumber, inputValue, details) {
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = `
+                <h3>Button ${buttonNumber} Clicked</h3>
+                <p>Input Value: ${inputValue}</p>
+                <p>Input Details:</p>
+                <ul>
+                    <li>ID: ${details.id}</li>
+                    <li>Type: ${details.type}</li>
+                    <li>Placeholder: ${details.placeholder}</li>
+                    <li>Text Length: ${details.length}</li>
+                    <li>Is Empty: ${details.isEmpty}</li>
+                </ul>
+            `;
+        }
+    </script>
+</body>
+</html>
