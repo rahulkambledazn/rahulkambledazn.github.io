@@ -110,7 +110,7 @@ function performButtonAction(action) {
             break;
 
         case 'Betslip Failure':
-            console.log("Triggering Deposit Success...");
+            console.log("Triggering Betslip Failure...");
             window.daznNativeBridge.messageToNative('DZBT_BET_PLACEMENT_FAILURE' , {
                 "ecrExternalId" : ecrId ,
                 "closeInAppView" : true
@@ -118,7 +118,7 @@ function performButtonAction(action) {
             break;
         
         case 'Betslip Success':
-            console.log("Triggering Deposit Success...");
+            console.log("Triggering Betslip Success...");
             window.daznNativeBridge.messageToNative('DZBT_BET_PLACEMENT_SUCCESS' , {
                 "ecrExternalId" : ecrId ,
                 "closeInAppView" : true
