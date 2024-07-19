@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PAM Simulator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        margin: 5px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+<script>
+function performButtonAction(action) {   
+     console.log(" performButtonAction");
+    const input = document.getElementById('input1');
+            const ecrId = input.value;
+            console.log(" action:" + action + " ecrId:" + ecrId);
+
+    switch(action) {
+        case 'Registration Failure':
+            console.log("Triggering Registration Failure...");
+            window.daznNativeBridge.messageToNative('DZBT_REGISTRATION_ABORTED' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Registration Success':
+            console.log("Triggering Registration Success...");
+            window.daznNativeBridge.messageToNative('DZBT_REGISTRATION_SUCCESS' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Login Failure':
+            console.log("Triggering Login Failure...");
+            window.daznNativeBridge.messageToNative('DZBT_LOGIN_ABORTED' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Login Success':
+            console.log("Triggering Login Success...");
+            window.daznNativeBridge.messageToNative('DZBT_LOGIN_SUCCESS' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Deposit Failure':
+            console.log("Triggering Deposit Failure...");
+            window.daznNativeBridge.messageToNative('DZBT_DEPOSIT_ABORTED' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Deposit Success':
+            console.log("Triggering Deposit Success...");
+            window.daznNativeBridge.messageToNative('DZBT_DEPOSIT_SUCCESS' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Back To Stream':
+            console.log("Triggering Back To Stream...");
+            window.daznNativeBridge.messageToNative('DZBT_BACK_TO_STREAM' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true,
+                "hideBettingSection" : true
+            });
+            break;
+
+        case 'Redirect to External Browser':
+            console.log("Triggering Deposit Success...");
+            window.daznNativeBridge.messageToNative('DZBT_REDIRECTION' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true,
+                "url" : "https://help.daznbet.com/hc/en-gb/requests/new"
+            });
+            break;
+
+        case 'Close IN_APP view':
+            console.log("Triggering Deposit Success...");
+            window.daznNativeBridge.messageToNative('DZBT_IN_APP_CLOSE' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Betslip Failure':
+            console.log("Triggering Betslip Failure...");
+            window.daznNativeBridge.messageToNative('DZBT_BET_PLACEMENT_FAILURE' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        case 'Betslip Failure':
+            console.log("Triggering Betslip Failure...");
+            window.daznNativeBridge.messageToNative({
+                "eventName":"DZBT_BET_PLACEMENT_FAILURE",
+                "payload":{
+                    "ecrExternalId" : ecrId ,
+                    "closeInAppView" : true
+                }
+            });
+            break;
+
+        case 'Betslip Success':
+            console.log("Triggering Betslip Success...");
+            window.daznNativeBridge.messageToNative('DZBT_BET_PLACEMENT_SUCCESS' , {
+                "ecrExternalId" : ecrId ,
+                "closeInAppView" : true
+            });
+            break;
+
+        default:
+            alert("Unknown action: " + action);
+    }
+}
+</script>
+</head>
+<body>
+
+<h1>Welcome to PAM Simulator</h1>
+
+<div class="column">
+            <input type="text" id="input1" placeholder="Enter ecrExternalId...">
+        </div>
+
+<button onclick="performButtonAction('Registration Failure')">Trigger Registration Failure</button><br><br>
+<button onclick="performButtonAction('Registration Success')">Trigger Registration Success</button><br><br>
+<button onclick="performButtonAction('Login Failure')">Trigger Login Failure</button><br><br>
+<button onclick="performButtonAction('Login Success')">Trigger Login Success</button><br><br>
+<button onclick="performButtonAction('Deposit Failure')">Trigger Deposit Failure</button><br><br>
+<button onclick="performButtonAction('Deposit Success')">Trigger Deposit Success</button>
+<button onclick="performButtonAction('Betslip Failure')">Trigger Betslip Failure</button><br><br>
+<button onclick="performButtonAction('Betslip Success')">Trigger Betslip Success</button>
+</body>
+</html>
