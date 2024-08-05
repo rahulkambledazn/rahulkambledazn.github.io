@@ -6,6 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAM Simulator</title>
     <style>
+         #cookieInput {
+            width: calc(100% - 110px);
+            display: inline-block;
+        }
+        
+        #addCookieButton {
+            width: 100px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        
+        #cookieDisplay {
+            margin-top: 20px;
+            text-align: left;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: #f5f5f7;
@@ -93,6 +114,20 @@
         }
     </style>
     <script>
+
+function showCookies() {
+            const cookieDisplay = document.getElementById('cookieDisplay');
+            cookieDisplay.textContent = document.cookie || "No cookies found.";
+        }
+
+        function addCookie() {
+            const cookieInput = document.getElementById('cookieInput');
+            document.cookie = cookieInput.value;
+            cookieInput.value = '';
+            showCookies();
+        }
+
+
         function performButtonAction(action) {
             console.log("performButtonAction");
             const input = document.getElementById('input1');
@@ -262,6 +297,14 @@
             <button onclick="performButtonAction('Resize Screen')">Resize Screen</button>
         </div>
     </div>
+
+    <div style="margin-top: 20px;">
+        <input type="text" id="cookieInput" placeholder="Enter cookie (name=value)">
+        <button id="addCookieButton" onclick="addCookie()">Add Cookie</button>
+    </div>
+    <button onclick="showCookies()">Show Cookies</button>
+    <div id="cookieDisplay"></div>
+    
 </body>
 
 </html>
