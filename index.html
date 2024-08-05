@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PAM Simulator</title>
     <style>
-         #cookieInput {
+        #cookieInput {
             width: calc(100% - 110px);
             display: inline-block;
         }
-        
+
         #addCookieButton {
             width: 100px;
             display: inline-block;
             vertical-align: top;
         }
-        
+
         #cookieDisplay {
             margin-top: 20px;
             text-align: left;
@@ -115,16 +115,32 @@
     </style>
     <script>
 
-function showCookies() {
+        function showCookies() {
             const cookieDisplay = document.getElementById('cookieDisplay');
-            cookieDisplay.textContent = document.cookie || "No cookies found.";
+            const cookies = document.cookie.split(';');
+
+            if (cookies.length === 1 && cookies[0] === "") {
+                cookieDisplay.textContent = "No cookies found.";
+            } else {
+                let cookieList = "";
+                cookies.forEach(cookie => {
+                    const [name, value] = cookie.trim().split('=');
+                    cookieList += `${name}: ${value}\n`;
+                });
+                cookieDisplay.textContent = cookieList;
+            }
         }
 
         function addCookie() {
             const cookieInput = document.getElementById('cookieInput');
-            document.cookie = cookieInput.value;
-            cookieInput.value = '';
-            showCookies();
+            const [name, value] = cookieInput.value.split('=');
+            if (name && value) {
+                document.cookie = `${name.trim()}=${value.trim()}`;
+                cookieInput.value = '';
+                showCookies();
+            } else {
+                alert("Please enter a cookie in the format 'name=value'");
+            }
         }
 
 
@@ -135,8 +151,8 @@ function showCookies() {
 
             const input2 = document.getElementById('input2');
             const resizePercentage = parseFloat(input2.value);
-            
-            console.log("action:" + action + " ecrId:" + ecrId + " resizePercentage:"+resizePercentage);
+
+            console.log("action:" + action + " ecrId:" + ecrId + " resizePercentage:" + resizePercentage);
 
             switch (action) {
                 case 'Registration Failure':
@@ -261,7 +277,7 @@ function showCookies() {
                         }
                     });
                     break;
-                
+
                 case 'Resize Screen':
                     console.log('Resize Screen');
                     window.daznNativeBridge.messageToNative({
@@ -304,7 +320,7 @@ function showCookies() {
     </div>
     <button onclick="showCookies()">Show Cookies</button>
     <div id="cookieDisplay"></div>
-    
+
 </body>
 
 </html>
