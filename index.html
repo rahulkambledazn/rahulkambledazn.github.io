@@ -97,7 +97,11 @@
             console.log("performButtonAction");
             const input = document.getElementById('input1');
             const ecrId = input.value;
-            console.log("action:" + action + " ecrId:" + ecrId);
+
+            const input2 = document.getElementById('input2');
+            const resizePercentage = parseFloat(input2.value);
+            
+            console.log("action:" + action + " ecrId:" + ecrId + " resizePercentage:"+resizePercentage);
 
             switch (action) {
                 case 'Registration Failure':
@@ -222,6 +226,18 @@
                         }
                     });
                     break;
+                
+                case 'Resize Screen':
+                    console.log('Resize Screen');
+                    window.daznNativeBridge.messageToNative({
+                        "eventName": "DZBT_RESIZE_SCREEN",
+                        "payload": {
+                            "ecrExternalId": ecrId,
+                            "closeInAppView": true,
+                            "screenPercentage": resizePercentage || 50.0
+                        }
+                    });
+                    break;
 
                 default:
                     alert("Unknown action: " + action);
@@ -233,6 +249,7 @@
     <div class="container">
         <h1>PAM Simulator</h1>
         <input type="text" id="input1" placeholder="Enter ecrExternalId...">
+        <input type="text" id="input2" placeholder="Enter resize screenPercentage...">
         <div class="button-group">
             <button onclick="performButtonAction('Registration Failure')">Registration Failure</button>
             <button onclick="performButtonAction('Registration Success')">Registration Success</button>
@@ -242,6 +259,7 @@
             <button onclick="performButtonAction('Deposit Success')">Deposit Success</button>
             <button onclick="performButtonAction('Betslip Failure')">Betslip Failure</button>
             <button onclick="performButtonAction('Betslip Success')">Betslip Success</button>
+            <button onclick="performButtonAction('Resize Screen')">Betslip Success</button>
         </div>
     </div>
 </body>
