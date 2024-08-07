@@ -135,9 +135,13 @@
             const cookieInput = document.getElementById('cookieInput');
             const [name, value] = cookieInput.value.split('=');
             if (name && value) {
-                document.cookie = `${name.trim()}=${value.trim()}`;
+                let now = new Date();
+                let expireTime = new Date(now.getTime() + 5 * 60 * 1000);
+                let cookieString = `${name.trim()}=${value.trim()}; expires=${expireTime.toUTCString()}; path=/`;
+                document.cookie = cookieString;
                 cookieInput.value = '';
                 showCookies();
+                alert(`Cookie set! It will expire in 5 minutes.`);
             } else {
                 alert("Please enter a cookie in the format 'name=value'");
             }
